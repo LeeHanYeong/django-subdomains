@@ -1,23 +1,21 @@
 import functools
-try:
-    from urlparse import urlunparse
-except ImportError:
-    from urllib.parse import urlunparse
+from urllib.parse import urlunparse
 
 from django.conf import settings
-from django.core.urlresolvers import reverse as simple_reverse
+from django.urls import reverse as simple_reverse
 
 
 def current_site_domain():
     from django.contrib.sites.models import Site
+
     domain = Site.objects.get_current().domain
 
-    prefix = 'www.'
-    if getattr(settings, 'REMOVE_WWW_FROM_DOMAIN', False) \
-            and domain.startswith(prefix):
-        domain = domain.replace(prefix, '', 1)
+    prefix = "www."
+    if getattr(settings, "REMOVE_WWW_FROM_DOMAIN", False) and domain.startswith(prefix):
+        domain = domain.replace(prefix, "", 1)
 
     return domain
+
 
 get_domain = current_site_domain
 
@@ -33,13 +31,12 @@ def urljoin(domain, path=None, scheme=None):
     :returns: a full URL
     """
     if scheme is None:
-        scheme = getattr(settings, 'DEFAULT_URL_SCHEME', 'http')
+        scheme = getattr(settings, "DEFAULT_URL_SCHEME", "http")
 
-    return urlunparse((scheme, domain, path or '', None, None, None))
+    return urlunparse((scheme, domain, path or "", None, None, None))
 
 
-def reverse(viewname, subdomain=None, scheme=None, args=None, kwargs=None,
-        current_app=None):
+def reverse(viewname, subdomain=None, scheme=None, args=None, kwargs=None, current_app=None):
     """
     Reverses a URL from the given parameters, in a similar fashion to
     :meth:`django.core.urlresolvers.reverse`.
@@ -55,18 +52,17 @@ def reverse(viewname, subdomain=None, scheme=None, args=None, kwargs=None,
 
     domain = get_domain()
     if subdomain is not None:
-        domain = '%s.%s' % (subdomain, domain)
+        domain = f"{subdomain}.{domain}"
 
-    path = simple_reverse(viewname, urlconf=urlconf, args=args, kwargs=kwargs,
-        current_app=current_app)
+    path = simple_reverse(viewname, urlconf=urlconf, args=args, kwargs=kwargs, current_app=current_app)
     return urljoin(domain, path, scheme=scheme)
 
 
 #: :func:`reverse` bound to insecure (non-HTTPS) URLs scheme
-insecure_reverse = functools.partial(reverse, scheme='http')
+insecure_reverse = functools.partial(reverse, scheme="http")
 
 #: :func:`reverse` bound to secure (HTTPS) URLs scheme
-secure_reverse = functools.partial(reverse, scheme='https')
+secure_reverse = functools.partial(reverse, scheme="https")
 
 #: :func:`reverse` bound to be relative to the current scheme
-relative_reverse = functools.partial(reverse, scheme='')
+relative_reverse = functools.partial(reverse, scheme="")

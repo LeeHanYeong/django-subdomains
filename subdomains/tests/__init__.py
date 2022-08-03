@@ -3,20 +3,28 @@ from django.conf import settings
 if not settings.configured:
     settings.configure(
         INSTALLED_APPS=(
-            'django.contrib.sites',
-            'subdomains',
+            "django.contrib.sites",
+            "subdomains",
         ),
         DATABASES={
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': ':memory:',
+            "default": {
+                "ENGINE": "django.db.backends.sqlite3",
+                "NAME": ":memory:",
             },
         },
         SITE_ID=1,
-        MIDDLEWARE_CLASSES=(
-            'django.middleware.common.CommonMiddleware',
-            'subdomains.middleware.SubdomainURLRoutingMiddleware',
+        MIDDLEWARE=(
+            "django.middleware.common.CommonMiddleware",
+            "subdomains.middleware.SubdomainURLRoutingMiddleware",
         ),
+        TEMPLATES=[
+            {
+                "BACKEND": "django.template.backends.django.DjangoTemplates",
+            },
+        ],
+        ALLOWED_HOSTS=[
+            ".example.com",
+        ],
     )
 
 
@@ -33,5 +41,5 @@ def run():
         django.setup()
 
     runner = get_runner(settings)()
-    failures = runner.run_tests(('subdomains',))
+    failures = runner.run_tests(("subdomains",))
     sys.exit(failures)

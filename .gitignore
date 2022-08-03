@@ -1,3 +1,4 @@
+.python-version
 *.egg*
 *.py[co]
 .tox/
