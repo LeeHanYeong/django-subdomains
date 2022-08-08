@@ -1,6 +1,6 @@
 [project]
 name = "django-subdomains2"
-version = "4.1.0"
+version = "4.1.1"
 authors = [{ name = "lhy", email = "dev@lhy.kr" }]
 description = "Subdomain tools for the Django framework, including subdomain-based URL routing."
 readme = "README.md"
