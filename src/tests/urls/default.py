@@ -1,6 +1,6 @@
 from django.urls import path
 
-from subdomains.tests.views import view
+from tests.views import view
 
 urlpatterns = [
     path("", view, name="home"),

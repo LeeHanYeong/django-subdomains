@@ -19,7 +19,7 @@ def prefix_values(dictionary, prefix):
 
 class SubdomainTestMixin(object):
     DOMAIN = "example.com"
-    URL_MODULE_PATH = "subdomains.tests.urls"
+    URL_MODULE_PATH = "tests.urls"
 
     def setUp(self):
         from django.contrib.sites.models import Site
