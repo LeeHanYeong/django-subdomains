@@ -6,10 +6,7 @@ from django.urls import reverse as simple_reverse
 
 
 def current_site_domain():
-    from django.contrib.sites.models import Site
-
-    domain = Site.objects.get_current().domain
-
+    domain = getattr(settings, "SUBDOMAIN_DOMAIN", "")
     prefix = "www."
     if getattr(settings, "REMOVE_WWW_FROM_DOMAIN", False) and domain.startswith(prefix):
         domain = domain.replace(prefix, "", 1)

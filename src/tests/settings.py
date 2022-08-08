@@ -1,14 +1,10 @@
-INSTALLED_APPS = (
-    "django.contrib.sites",
-    "subdomains",
-)
+INSTALLED_APPS = ("subdomains",)
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": ":memory:",
     },
 }
-SITE_ID = 1
 MIDDLEWARE = (
     "django.middleware.common.CommonMiddleware",
     "subdomains.middleware.SubdomainURLRoutingMiddleware",
@@ -22,3 +18,6 @@ ALLOWED_HOSTS = [
     ".example.com",
 ]
 USE_TZ = True
+
+# Subdomain settings
+SUBDOMAIN_DOMAIN = "example.com"

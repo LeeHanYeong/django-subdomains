@@ -3,6 +3,7 @@ import warnings
 from urllib import parse as urlparse
 
 import mock
+from django.conf import settings
 from django.template import Context, Template
 from django.test import TestCase
 from django.test.client import RequestFactory
@@ -22,12 +23,8 @@ class SubdomainTestMixin(object):
     URL_MODULE_PATH = "tests.urls"
 
     def setUp(self):
-        from django.contrib.sites.models import Site
-
         self.middleware = SubdomainURLRoutingMiddleware
-        self.site = Site.objects.get_current()
-        self.site.domain = self.DOMAIN
-        self.site.save()
+        self.domain = settings.SUBDOMAIN_DOMAIN
 
     @override_settings(
         DEFAULT_URL_SCHEME="http",
@@ -59,9 +56,9 @@ class SubdomainTestMixin(object):
         Returns the hostname for the provided subdomain.
         """
         if subdomain is not None:
-            host = f"{subdomain}.{self.site.domain}"
+            host = f"{subdomain}.{self.domain}"
         else:
-            host = f"{self.site.domain}"
+            host = f"{self.domain}"
         return host
 
 
@@ -92,10 +89,7 @@ class SubdomainMiddlewareTestCase(SubdomainTestMixin, TestCase):
             self.middleware.process_request_subdomain(request)
             return request.subdomain
 
-        self.site.domain = f"www.{self.DOMAIN}"
-        self.site.save()
-
-        with override_settings(REMOVE_WWW_FROM_DOMAIN=False):
+        with override_settings(REMOVE_WWW_FROM_DOMAIN=False, SUBDOMAIN_DOMAIN=f"www.{self.DOMAIN}"):
             self.assertEqual(host(f"www.{self.DOMAIN}"), None)
 
             # Squelch the subdomain warning for cleaner test output, since we

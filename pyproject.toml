@@ -1,9 +1,9 @@
 [project]
 name = "django-subdomains2"
-version = "4.0.2"
+version = "4.1.0"
 authors = [{ name = "lhy", email = "dev@lhy.kr" }]
 description = "Subdomain tools for the Django framework, including subdomain-based URL routing."
-readme = "README.rst"
+readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.8"
 classifiers = [
