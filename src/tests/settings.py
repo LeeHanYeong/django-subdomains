@@ -21,3 +21,4 @@ USE_TZ = True
 
 # Subdomain settings
 SUBDOMAIN_DOMAIN = "example.com"
+SUBDOMAIN_IGNORE_HOSTS = []

@@ -32,6 +32,13 @@ class SubdomainURLRoutingMiddleware:
     def process_request_subdomain(request):
         domain, host = map(lower, (get_domain(), request.get_host()))
 
+        # Set subdomain to None without logs
+        # if host is included in settings.SUBDOMAIN_IGNORE_HOSTS
+        ignore_hosts = getattr(settings, "SUBDOMAIN_IGNORE_HOSTS", [])
+        if host in ignore_hosts:
+            request.subdomain = None
+            return
+
         pattern = r"^(?:(?P<subdomain>.*?)\.)?%s(?::.*)?$" % re.escape(domain)
         matches = re.match(pattern, host)
 

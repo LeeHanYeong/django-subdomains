@@ -46,8 +46,12 @@ pip install django-subdomains2
 3. Configure the `SUBDOMAIN_DOMAIN` in Django settings file.  
    ```python
    SUBDOMAIN_DOMAIN = "mysite.com"
+   SUBDOMAIN_IGNORE_HOSTS = ["health-check"]  # Optional, If you want to ignore the "health-check" host
    ```
-
+   
+   > **Optional - `SUBDOMAIN_IGNORE_HOSTS`**
+   > Add hosts to `SUBDOMAIN_IGNORE_HOSTS` if you need a list of hosts not to search for subdomains (which automatically uses the "None" value of SUBDOMAIN_URLCONFS)
+   
 4. If you want to use the subdomain-based `{% url %}` template tag, add `subdomains` to your `INSTALLED_APPS`.
 
 ## Basic Usage
