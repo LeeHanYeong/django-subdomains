@@ -21,7 +21,7 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["subdomains"]
+include = ["subdomains", "subdomains.templatetags"]
 namespaces = false
 
 [tool.black]
